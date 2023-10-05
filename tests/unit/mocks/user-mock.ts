@@ -8,6 +8,6 @@ export function generateUserMocks(): User {
         lastName: faker.person.lastName(),
         email: faker.internet.email(),
         cpf: faker.number.int({ min: 100000000, max: 999999999 }).toString(),
-        birthDate: faker.date.birthdate({ min: 5, max: 15, mode: 'age' })
+        birthDate: faker.date.birthdate({ min: 18, max: 30, mode: 'age' })
     };
 }

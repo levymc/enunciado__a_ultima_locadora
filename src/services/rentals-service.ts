@@ -56,6 +56,7 @@ async function getUserForRental(userId: number) {
 async function checkUserAbleToRental(userId: number) {
   const rentals = await rentalsRepository.getRentalsByUserId(userId, false);
   if (rentals.length > 0) throw pendentRentalError("The user already have a rental!");
+  return rentals
 }
 
 async function checkMoviesValidForRental(moviesId: number[], user: User) {
@@ -72,6 +73,7 @@ async function checkMoviesValidForRental(moviesId: number[], user: User) {
       throw insufficientAgeError("Cannot see that movie.");
     };
   }
+  return true
 }
 
 function movieAlreadyRented(rentalId: number){
@@ -89,6 +91,8 @@ function userIsUnderAge(user: User) {
 
 export default {
   getRentals,
+  checkUserAbleToRental,
+  checkMoviesValidForRental,
   getRentalById,
   createRental,
   finishRental,

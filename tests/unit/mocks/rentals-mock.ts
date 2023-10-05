@@ -30,3 +30,5 @@ export const mockRental: Rental[] = [
         closed: false,
     },
 ];
+
+export const mockRental2: Rental[] = []

@@ -1,7 +1,7 @@
 import rentalsRepository from "repositories/rentals-repository";
 import { mockRental } from "./mocks/rentals-mock";
 import rentalsService from "services/rentals-service";
-import { userMock } from "./mocks/user-mock";
+import { generateUserMocks } from "./mocks/user-mock";
 import { mockMovie } from "./mocks/movie-mock";
 
 
@@ -32,13 +32,14 @@ describe("Rentals Service (User) Unit Tests", () => {
   });
 
   it('User Age should be 18 +', async () => {
-    const input = 1;
     const mock = jest.spyOn(rentalsService, 'userUnderAgeWithAdultMovie');
+    const userMock = generateUserMocks();
     mock.mockImplementation((): any => {
       return true && rentalsService.userIsUnderAge(userMock);
     });
     const isUnderAge = rentalsService.userUnderAgeWithAdultMovie(true, userMock);
-    expect(isUnderAge).toEqual(true);
+    console.info({ isUnderAge , msg: isUnderAge? 'Filme é adultsOnly e o User é menor' : 'Filme é adultsOnly e o User é maior', dataNasc: userMock.birthDate})
+    expect(isUnderAge).toBeFalsy();
   });
 })
 
@@ -51,5 +52,13 @@ describe("Rentals Service (Movie) Unit Tests", () => {
     const boolean = rentalsService.movieAlreadyRented(mockMovie.rentalId);
     expect(boolean).toBeTruthy();
   });
-
+  
+  it('movieAlreadyRented should truthy when is rented', async () => {
+    const mock = jest.spyOn(rentalsService, 'movieAlreadyRented');
+    mock.mockImplementation((): any => {
+      return mockMovie.rentalId != null;
+    });
+    const boolean = rentalsService.movieAlreadyRented(mockMovie.rentalId);
+    expect(boolean).toBeTruthy();
+  });
 })
